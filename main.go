@@ -3,6 +3,8 @@ package main
 import (
 	"io"
 	"net/http"
+
+	"github.com/sasidakh/employee/employee"
 )
 
 func hello(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +20,9 @@ func main() {
 		Handler: &myHandler{},
 	}
 	mux = make(map[string]func(http.ResponseWriter, *http.Request))
-	mux["/"] = hello
+
+	addHandler("/", hello)
+	addHandler("/employee", employee.AddEmployee)
 	server.ListenAndServe()
 }
 
@@ -32,4 +36,11 @@ func (*myHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	io.WriteString(w, "My Server: "+r.URL.String())
+}
+
+func addHandler(route string, handler http.HandlerFunc) {
+	if _, ok := mux[route]; ok {
+		panic("Route exists.")
+	}
+	mux[route] = handler
 }
