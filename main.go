@@ -14,6 +14,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 var mux map[string]func(http.ResponseWriter, *http.Request)
 
 func main() {
+
 	server := http.Server{
 		Addr:    ":8080",
 		Handler: &myHandler{},
@@ -21,7 +22,8 @@ func main() {
 	mux = make(map[string]func(http.ResponseWriter, *http.Request))
 
 	addHandler("/", hello)
-	addHandler("/employee", employee.AddEmployee)
+	addHandler("/employee", employee.Handler)
+
 	server.ListenAndServe()
 }
 
