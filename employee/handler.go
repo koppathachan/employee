@@ -2,13 +2,17 @@ package employee
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 )
 
-func addEmployee(e *Employee) {
-	//do add here
-	fmt.Printf("%#v\n", *e)
+func addEmployee(e *Employee) error {
+	db := NewRepository()
+	if err := db.Add(e); err != nil {
+		return err
+	}
+	log.Println("Added new employee")
+	return nil
 }
 
 // Handler function adds an employee to the database
@@ -20,7 +24,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		if err := json.NewDecoder(r.Body).Decode(&e); err != nil {
 			panic(err)
 		}
-		addEmployee(&e)
+		if err := addEmployee(&e); err != nil {
+			json.NewEncoder(w).Encode(err)
+			return
+		}
+		json.NewEncoder(w).Encode("Added new employee")
 	}
 
 }
