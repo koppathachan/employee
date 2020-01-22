@@ -1,10 +1,12 @@
 package employee
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 //Employee model
 type Employee struct {
-	ID          string
-	Name        string
-	Designation string
-	Exp         int
-	Salary      float64
+	ID          *primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name        string              `json:"name"`
+	Designation string              `json:"designation"`
+	Exp         int                 `json:"exp"`
+	Salary      float64             `json:"salary"`
 }

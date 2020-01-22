@@ -15,9 +15,14 @@ func addEmployee(e *Employee) error {
 	return nil
 }
 
+func getEmployee() ([]Employee, error) {
+	db := NewRepository()
+	return db.Get(nil)
+}
+
 // Handler function adds an employee to the database
 func Handler(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "application/json")
 	switch method := r.Method; method {
 	case "POST":
 		var e Employee
@@ -29,6 +34,12 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		json.NewEncoder(w).Encode("Added new employee")
+	case "GET":
+		if el, err := getEmployee(); err != nil {
+			json.NewEncoder(w).Encode(err)
+		} else {
+			json.NewEncoder(w).Encode(el)
+		}
 	}
 
 }
