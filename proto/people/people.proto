@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package people;
+
+option go_package = "github.com/sasidakh/people";
+
+message Person {
+    string id = 1;
+    string name = 2;
+    string gender = 3;
+}
+
+message WriteResponse {
+    int32 count = 1;
+}
+
+message Empty {}
+
+service People {
+    rpc AddPerson(Person) returns (WriteResponse);
+    rpc GetPeople(Empty) returns (stream Person);
+}
