@@ -1,0 +1,1 @@
+export PATH_TO_FILE="/home/darshan/Desktop/employee/people/people.json"
