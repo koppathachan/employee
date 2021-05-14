@@ -19,4 +19,5 @@ message Empty {}
 service People {
     rpc AddPerson(Person) returns (WriteResponse);
     rpc GetPeople(Empty) returns (stream Person);
+    // rpc GetPeople(Empty) returns (Person);
 }
